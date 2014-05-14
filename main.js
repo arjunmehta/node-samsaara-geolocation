@@ -8,7 +8,8 @@ var debug = require('debug')('samsaara:geoPosition');
 
 function geoPosition(options){
 
-  var config,
+  var samsaara,
+      config,
       connectionController,
       communication,
       ipc;
@@ -64,6 +65,7 @@ function geoPosition(options){
 
   return function geoPosition(samsaaraCore){
 
+    samsaara = samsaaraCore;
     config = samsaaraCore.config;
     connectionController = samsaaraCore.connectionController;
     communication = samsaaraCore.communication;
