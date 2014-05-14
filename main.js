@@ -74,6 +74,8 @@ function geoPosition(options){
 
       name: "geoPosition",
 
+      clientScript: __dirname + '/client/samsaara-geoposition.js', 
+
       connectionInitialization: {
         geoPosition: connectionInitialzation
       }
