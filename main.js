@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 
-
+var debug = require('debug')('samsaara:geoPosition');
 
 function geoPosition(options){
 
@@ -28,7 +28,7 @@ function geoPosition(options){
     connection.updateDataAttribute("geoposition", null);
 
     if(opts.geoPosition !== undefined){
-      console.log("Initializing geoPosition...");
+      debug("Initializing geoPosition...");
       if(opts.geoPosition === "force") attributes.force("geoPosition");
       communication.sendToClient(connection.id, {internal: "getGeoPosition"}, geoPositionReturn);
     }    
@@ -47,10 +47,11 @@ function geoPosition(options){
       connection.updateDataAttribute("geoposition", geoposition);
       connection.initializeAttributes.initialized(err, "geoPosition");
       samsaara.emit('geoPosition', connection, err, geoposition);
+      debug("geoPosition Retrieval Success", err, geoposition);
     }
     else{
       connection.initializeAttributes.initialized(new Error("Unknown Error: GeoPosition did not work"), "geoPosition");
-      console.log("geoPosition Retrieval Error", connection);
+      debug("geoPosition Retrieval Error", connection);
     }
   }
 
