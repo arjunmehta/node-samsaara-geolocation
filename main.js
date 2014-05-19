@@ -31,7 +31,7 @@ function geoPosition(options){
     if(opts.geoPosition !== undefined){
       debug("Initializing geoPosition...");
       if(opts.geoPosition === "force") attributes.force("geoPosition");
-      communication.sendToClient(connection.id, {internal: "getGeoPosition"}, geoPositionReturn);
+      connection.execute({internal: "getGeoPosition"}, geoPositionReturn);
     }    
   }
 
@@ -69,7 +69,7 @@ function geoPosition(options){
     config = samsaaraCore.config;
     connectionController = samsaaraCore.connectionController;
     communication = samsaaraCore.communication;
-    ipc = samsaaraCore.ipcRedis;
+    ipc = samsaaraCore.ipc;
 
     samsaaraCore.addClientFileRoute("samsaara-geoposition.js", __dirname + '/client/samsaara-geoposition.js');
 
