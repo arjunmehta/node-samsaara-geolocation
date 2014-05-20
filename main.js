@@ -65,8 +65,7 @@ function geoPosition(options){
 
   return function geoPosition(samsaaraCore){
 
-    samsaara = samsaaraCore;
-    config = samsaaraCore.config;
+    samsaara = samsaaraCore.samsaara;
     connectionController = samsaaraCore.connectionController;
     communication = samsaaraCore.communication;
     ipc = samsaaraCore.ipc;
