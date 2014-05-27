@@ -31,7 +31,7 @@ function geoPosition(options){
     if(opts.geoPosition !== undefined){
       debug("Initializing geoPosition...");
       if(opts.geoPosition === "force") attributes.force("geoPosition");
-      connection.execute({internal: "getGeoPosition"}, geoPositionReturn);
+      connection.executeRaw({ns:"internal", func:"getGeoPosition"}, geoPositionReturn);
     }    
   }
 
