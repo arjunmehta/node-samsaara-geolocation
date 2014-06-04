@@ -42,7 +42,7 @@ function geoPosition(options){
 
   function geoPositionReturn(err, geoposition){
 
-    var connection = this.connection;
+    var connection = this;
 
     if(connection !== undefined){
       connection.updateDataAttribute("geoposition", geoposition);
