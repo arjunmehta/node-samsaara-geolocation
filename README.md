@@ -34,14 +34,18 @@ samsaara
 
 ### Server Side
 
-Now your samsaara server can request geoPosition information from clients if available. Just add the geolocation middleware to your samsaara instance. You can pass in the `forced` option to configure whether a client's geoLocation request must complete before initialization. If you're not familiar with what this means, definitely read this section in the samsaara readme about initialization.
+Now your samsaara server can request geoPosition information from clients if available. Just add the geolocation middleware to your samsaara instance.
+
+Use the `onConnection` option to get the connecting client's geoLocation when they connect. Set it to `'required'` if the query is a requirement for `initialization`. If you're not familiar with what this means, definitely read this section in the samsaara readme about initialization.
 
 ```javascript
 var samsaara = require('samsaara')
 var geoLocation = require('samsaara-geolocation')
 
 samsaara
-  .use(geoLocation, {forced: true})
+  .use(geoLocation, {
+    onConnection: 'required' // or true or false/undefined
+  })
   .initialize({
     socketType: 'ws'
   })
