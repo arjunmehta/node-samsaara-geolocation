@@ -1,5 +1,5 @@
 var debugit = require('debugit').enable();
-var debug = debugit.add('samsaara:test:timeOffset');
+var debug = debugit.add('samsaara:test:geoLocation');
 
 var test = require('tape').test;
 var TapeFence = require('./tapefence');
@@ -8,7 +8,7 @@ var fences = {};
 
 var WebSocketServer = require('ws').Server;
 var samsaara = require('samsaara');
-var timeOffset = require('../main');
+var geoLocation = require('../main');
 
 var connectionCount = 0;
 
@@ -45,8 +45,9 @@ test('Samsaara Server Exists', function(t) {
 
 test('Samsaara can load TimeOffset middleware', function(t) {
     console.log('JUST CHECKING');
-    samsaara.use(timeOffset, {
-        forced: true
+    samsaara.use(geoLocation, {
+        forced: true,
+        onConnection: true
     });
     t.end();
 });
