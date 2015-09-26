@@ -27,7 +27,13 @@
         "client",
         "position",
         "coordinates",
-        "geocoordinates"
+        "geocoordinates",
+        "geoposition",
+        "gps",
+        "position",
+        "latitude",
+        "longitude",
+        "geo"
     ],
     "repository": {
         "type": "git",
