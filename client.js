@@ -26,7 +26,7 @@ module.exports = {
 
             var errorMessage = null;
 
-            if (navigator && navigator.geolocation) {
+            if (navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition) {
 
                 navigator.geolocation.getCurrentPosition(function(position) {
                     debug('Geolocation request successful', position);
@@ -39,7 +39,7 @@ module.exports = {
 
             } else {
 
-                errorMessage = 'No geolocation object available on client.';
+                errorMessage = 'No valid geolocation object available on client.';
                 debug('Geolocation request failure', errorMessage);
                 if (typeof cb === 'function') cb(errorMessage, null);
             }
