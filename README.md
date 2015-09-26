@@ -1,10 +1,10 @@
-#samsaara time offset
+#samsaara geolocation
 
 [![Build Status](https://travis-ci.org/arjunmehta/node-samsaara-geolocation.svg?branch=1.0.0)](https://travis-ci.org/arjunmehta/node-samsaara-geolocation)
 
-Time Offset middleware for [samsaara](https://www.github.com/arjunmehta/node-samsaara). Use this module to:
+GeoLocation middleware for [samsaara](https://www.github.com/arjunmehta/node-samsaara). Use this module to:
 
-- **Calculate the clock time difference between server and clients.**
+- **Query the geographic position of clients.**
 
 **Note:** *Use of this module requires familiarity with [samsaara](https://www.github.com/arjunmehta/node-samsaara) (of course). It's amazing and you'll love it. Get familiarized.*
 
