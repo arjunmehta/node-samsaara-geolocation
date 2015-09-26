@@ -14,7 +14,6 @@ module.exports = {
     name: 'geoLocation',
 
     initialize: function(extender, capability, options) {
-
         samsaara = extender.core;
         samsaara.createNamespace('samsaaraGeoLocation', this.exposedMethods);
         return this;
