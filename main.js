@@ -1,91 +1,64 @@
 /*!
- * Samsaara Client Geoposition Module
- * Copyright(c) 2014 Arjun Mehta <arjun@newlief.com>
+ * Samsaara Geolocation Middleware
+ * Copyright(c) 2015 Arjun Mehta <arjun@arjunmehta.net>
  * MIT Licensed
  */
 
-var debug = require('debug')('samsaara:geoPosition');
+var debug = require('debugit').add('samsaara:geoLocation');
+
+var samsaara;
 
 
-var samsaara,
-    config,
-    connectionController,
-    communication,
-    ipc;
+module.exports = {
 
+    name: 'geoLocation',
 
-var geoPosition = {
+    initialize: function(extender, capability, options) {
 
-  name: "geoPosition",
+        samsaara = extender.core;
 
-  clientScript: __dirname + '/client/samsaara-geoposition.js', 
+        extender.addConnectionMethods(this.connectionMethods);
 
-  connectionInitialization: {
-    geoPosition: connectionInitialzation
-  }
+        if (options.onConnection) {
+            extender.addConnectionInitialization(this.connectionInitialization, {
+                forced: options.forced ? true : false
+            });
+        }
+
+        return this;
+    },
+
+    connectionMethods: {
+        getCurrentPosition: function(cb) {
+            this.nameSpace('samsaaraGeoLocation').execute('getCurrentPosition')(function(err, position) {
+
+                if (!err) {
+                    debug('Client Position', position);
+                    this.setState({
+                        position: position
+                    });
+                    if (typeof cb === 'function') cb(null, position);
+                } else {
+                    debug('Client Location Error', err);
+                    if (typeof cb === 'function') cb(new Error(err), null);
+                }
+            });
+        }
+    },
+
+    connectionInitialization: function(connection, done) {
+        connection.nameSpace('samsaaraGeoLocation').execute('getCurrentPosition')(function(err, position) {
+
+            if (!err) {
+                debug('Client Position', position);
+                this.setState({
+                    position: position
+                });
+            } else {
+                debug('Client Location Error', err);
+            }
+
+            done();
+        });
+    }
 };
-
-
-// the root interface loaded by require. Options are pass in options here.
-
-function main(opts){
-  return initialize;
-}
-
-
-// samsaara will call this method when it's ready to load it into its middleware stack
-// return your main
-
-function initialize(samsaaraCore){
-
-  samsaara = samsaaraCore.samsaara;
-  connectionController = samsaaraCore.connectionController;
-  communication = samsaaraCore.communication;
-  ipc = samsaaraCore.ipc;
-
-  samsaaraCore.addClientFileRoute("samsaara-geoposition.js", __dirname + '/client/samsaara-geoposition.js');
-
-  return geoPosition;
-}
-
-
-// Connection Initialization Methods
-// Called for every new connection
-// 
-// @opts: {Object} contains the connection's options
-// @connection: {SamsaaraConnection} the connection that is initializing
-// @attributes: {Attributes} The attributes of the SamsaaraConnection and its methods
-
-function connectionInitialzation(opts, connection, attributes){
-
-  connection.updateDataAttribute("geoposition", null);
-
-  if(opts.geoPosition !== undefined){
-    debug("Initializing geoPosition...");
-    if(opts.geoPosition === "force") attributes.force("geoPosition");
-    connection.executeRaw({ns:"internal", func:"getGeoPosition"}, geoPositionReturn);
-  }    
-}
-
-
-// Foundation Methods
-
-function geoPositionReturn(err, geoposition){
-
-  var connection = this;
-
-  if(connection !== undefined){
-    connection.updateDataAttribute("geoposition", geoposition);
-    connection.initializeAttributes.initialized(err, "geoPosition");
-    samsaara.emit('geoPosition', connection, err, geoposition);
-    debug("geoPosition Retrieval Success", err, geoposition);
-  }
-  else{
-    connection.initializeAttributes.initialized(new Error("Unknown Error: GeoPosition did not work"), "geoPosition");
-    debug("geoPosition Retrieval Error", connection);
-  }
-}
-
-
-
-module.exports = exports = main;
