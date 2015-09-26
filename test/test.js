@@ -46,8 +46,7 @@ test('Samsaara Server Exists', function(t) {
 test('Samsaara can load TimeOffset middleware', function(t) {
     console.log('JUST CHECKING');
     samsaara.use(geoLocation, {
-        forced: true,
-        onConnection: true
+        onConnection: 'required'
     });
     t.end();
 });
