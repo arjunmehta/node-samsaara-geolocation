@@ -6,8 +6,6 @@
 
 var debug = require('debugit').add('samsaara:geoLocation');
 
-var samsaara;
-
 
 module.exports = {
 
@@ -15,13 +13,11 @@ module.exports = {
 
     initialize: function(extender, capability, options) {
 
-        samsaara = extender.core;
-
         extender.addConnectionMethods(this.connectionMethods);
 
         if (options.onConnection) {
             extender.addConnectionInitialization(this.connectionInitialization, {
-                forced: options.forced ? true : false
+                forced: options.onConnection === 'required' ? true : false
             });
         }
 
